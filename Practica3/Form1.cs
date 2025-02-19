@@ -8,6 +8,7 @@ namespace Practica3
         public Form1()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)

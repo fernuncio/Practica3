@@ -38,6 +38,7 @@ namespace Practica3
                 "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa",
                 "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz",
                 "Yucatán", "Zacatecas", "Nacido en el Extranjero"};
+            
             for(int i = 0;i<abreviaciones.Length;i++)
             {
                 if (abreviaciones[i].Equals(edo))
@@ -45,6 +46,28 @@ namespace Practica3
             }
 
             return "No encontrado";
+        }
+
+        public static string fechaNac(string a,string m,string d)
+        {
+            string[] meses = {"enero","febrero","marzo","abril","mayo",
+                "junio","julio","agosto","septiembre","octubre","noviembre",
+                "diciembre"};
+            string año, mes, dia;
+
+            int n = int.Parse(m);
+
+            if (m[0] == '0')
+                mes = meses[n-1];
+            else
+                mes = meses[n-1];
+
+            if (a[0] == '0')
+                año = "20" + a;
+            else
+                año = "19" + a;
+
+            return (d + " de " + mes + " de " + año);
         }
         public Fechas()
         {
@@ -56,9 +79,32 @@ namespace Practica3
 
         private void CALCULAR_Click(object sender, EventArgs e)
         {
+            //DateTime nacimiento = dtpNacimiento.Value;
+            //DateTime calculo = dtpCalculo.Value;
+            //resultado(nacimiento, calculo);
             DateTime nacimiento = dtpNacimiento.Value;
             DateTime calculo = dtpCalculo.Value;
-            resultado(nacimiento, calculo);
+            int edad = calculo.Year - nacimiento.Year;
+            int meses = calculo.Month - nacimiento.Month;
+            int dias = calculo.Day - nacimiento.Day;
+
+            if (calculo.Day < nacimiento.Day)
+            {
+                meses--;
+                dias += DateTime.DaysInMonth(nacimiento.Year, nacimiento.Month - 1);
+
+            }
+
+            if (calculo.Month < nacimiento.Month)
+            {
+                edad--;
+                meses += 12;
+            }
+            
+
+            MessageBox.Show("Años:" + edad + " Meses:" + meses + " Dias:" + dias, "Resultado",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
         private void buttonDatos_Click(object sender, EventArgs e)
@@ -75,11 +121,8 @@ namespace Practica3
                 labelSexo.Text = "Hombre";
 
             labelEdo.Text = estado(edo);
-
-            if (año[0] == '0')
-                labelNac.Text = dia + "-" + mes + "-20" + año;
-            else
-                labelNac.Text = dia + "-" + mes + "-19" + año;
+            labelNac.Text = fechaNac(año,mes,dia);
+            
         }
     }
 }
